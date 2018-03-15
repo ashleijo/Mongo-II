@@ -14,7 +14,7 @@ const readPosts = () => {
   return savedPosts;
 };
 
-mongoose
+/*mongoose
   .connect('mongodb://localhost/so-posts')
   .then(() => {
     Post.create(readPosts())
@@ -28,4 +28,12 @@ mongoose
   })
   .catch(error => {
     console.error('database connection failed');
-  });
+  });*/
+
+const populatePosts = () => {
+  const allPosts = readPosts();
+  const promises = allPosts.map(p => new Post(p).save());
+  return Promise.all(promises);
+};
+
+module.exports = { readPosts, populatePosts };
